@@ -44,7 +44,8 @@ const SCHEMA: string[] = [
     mastery TEXT NOT NULL,
     weak_points TEXT NOT NULL,
     note TEXT NOT NULL,
-    created_at INTEGER NOT NULL
+    created_at INTEGER NOT NULL,
+    deleted_at INTEGER
   )`,
   `CREATE TABLE IF NOT EXISTS feedbacks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,6 +65,17 @@ export class Database {
     await store.executeSql('PRAGMA foreign_keys = ON');
     for (const statement of SCHEMA) {
       await store.executeSql(statement);
+    }
+    const columns = await store.querySql('PRAGMA table_info(lessons)');
+    let hasDeletedAt = false;
+    while (columns.goToNextRow()) {
+      if (columns.getString(1) === 'deleted_at') {
+        hasDeletedAt = true;
+      }
+    }
+    columns.close();
+    if (!hasDeletedAt) {
+      await store.executeSql('ALTER TABLE lessons ADD COLUMN deleted_at INTEGER');
     }
     return store;
   }
