@@ -1,4 +1,6 @@
 import { describe, it, expect } from '@ohos/hypium';
+import billingTests from './Billing.test';
+import feedbackFormatterTests from './FeedbackFormatter.test';
 
 export default function testsuite() {
   describe('localUnitTest', () => {
@@ -8,4 +10,6 @@ export default function testsuite() {
       expect(value).assertEqual('abc');
     });
   });
+  billingTests();
+  feedbackFormatterTests();
 }
