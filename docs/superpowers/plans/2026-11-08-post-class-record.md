@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- 工程根目录固定为 `E:/old-new/backup/BNU_leaning/Harmony_AI_Lab/课后记`。
+- 工程根目录固定为 `D:/Harmony_AI_Lab/AfterClass`；E 盘仅保留空的 `Harmony_AI_Lab` 集合目录。
 - 首版仅支持个人一对一家教，不加入班课、复杂课表、账号、云同步、AI、PDF、真实支付、广告或应用内付费。
 - 核心流程离线可用，不申请网络、相机、麦克风、定位、NFC 或蓝牙权限。
 - 金额以整数分保存，禁止以浮点数持久化金额；课时以整数保存。
