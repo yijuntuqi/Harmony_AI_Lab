@@ -1,0 +1,16 @@
+.idea/
+.hvigor/
+.hvigorw/
+oh_modules/
+**/oh_modules/
+build/
+**/build/
+local.properties
+*.p12
+*.p7b
+*.csr
+*.cer
+*.jks
+*.keystore
+.DS_Store
+Thumbs.db
