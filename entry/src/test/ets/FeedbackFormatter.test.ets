@@ -28,5 +28,10 @@ export default function testsuite() {
       const feedback: string = formatParentFeedback('小明', lessonWithNote(''));
       expect(feedback).assertEqual('学生：小明\n日期：2026-11-08\n时长：90 分钟\n课程内容：二次函数\n顶点坐标 & 图像\n掌握情况：能独立完成基础题\n薄弱点：符号变换需加强');
     });
+
+    it('feedback_omits_whitespace_only_notes', 0, () => {
+      const feedback: string = formatParentFeedback('小明', lessonWithNote(' \t\n  '));
+      expect(feedback).assertEqual('学生：小明\n日期：2026-11-08\n时长：90 分钟\n课程内容：二次函数\n顶点坐标 & 图像\n掌握情况：能独立完成基础题\n薄弱点：符号变换需加强');
+    });
   });
 }

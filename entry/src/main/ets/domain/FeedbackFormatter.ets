@@ -9,7 +9,7 @@ export function formatParentFeedback(studentNickname: string, lesson: LessonInpu
     `掌握情况：${lesson.mastery}`,
     `薄弱点：${lesson.weakPoints}`
   ];
-  if (lesson.note.length > 0) {
+  if (lesson.note.trim().length > 0) {
     lines.push(`备注：${lesson.note}`);
   }
   return lines.join('\n');
