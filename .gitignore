@@ -5,6 +5,7 @@ oh_modules/
 **/oh_modules/
 build/
 **/build/
+**/.test/
 local.properties
 *.p12
 *.p7b
