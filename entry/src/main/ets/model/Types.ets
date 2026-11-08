@@ -9,6 +9,12 @@ export interface StudentInput {
   unitPriceFen: number;
 }
 
+export interface StudentSummary extends StudentInput {
+  id: number;
+  outstandingFen: number;
+  remainingLessons: number;
+}
+
 export interface LessonInput {
   studentId: number;
   requestId: string;
