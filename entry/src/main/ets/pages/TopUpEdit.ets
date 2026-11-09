@@ -42,8 +42,11 @@ struct TopUpEdit {
           .fontWeight(FontWeight.Bold)
           .layoutWeight(1)
           .textAlign(TextAlign.Center)
-        Blank()
-          .width(56)
+        Button(this.saving ? '保存中…' : '保存')
+          .id('saveTopUp')
+          .type(ButtonType.Normal)
+          .enabled(!this.saving)
+          .onClick(() => this.save())
       }
       .width('100%')
       Text('充值课时')
@@ -51,7 +54,6 @@ struct TopUpEdit {
       TextInput({ placeholder: '正整数', text: this.lessons })
         .id('topUpLessons')
         .height(48)
-        .type(InputType.Number)
         .onChange((value: string) => this.lessons = value)
       Text('日期')
         .width('100%')
@@ -71,12 +73,6 @@ struct TopUpEdit {
           .width('100%')
           .fontColor('#D92D20')
       }
-      Button(this.saving ? '保存中…' : '保存充值')
-        .id('saveTopUp')
-        .width('100%')
-        .height(48)
-        .enabled(!this.saving)
-        .onClick(() => this.save())
     }
     .id('topUpEditPage')
     .width('100%')
@@ -89,6 +85,7 @@ struct TopUpEdit {
     if (this.saving) {
       return;
     }
+    this.getUIContext().getFocusController().clearFocus();
     this.saving = true;
     this.error = '';
     try {

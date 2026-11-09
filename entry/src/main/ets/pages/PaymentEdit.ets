@@ -42,8 +42,11 @@ struct PaymentEdit {
           .fontWeight(FontWeight.Bold)
           .layoutWeight(1)
           .textAlign(TextAlign.Center)
-        Blank()
-          .width(56)
+        Button(this.saving ? '保存中…' : '保存')
+          .id('savePayment')
+          .type(ButtonType.Normal)
+          .enabled(!this.saving)
+          .onClick(() => this.save())
       }
       .width('100%')
       Text('收款金额（元）')
@@ -51,7 +54,6 @@ struct PaymentEdit {
       TextInput({ placeholder: '例如：100.00', text: this.amountYuan })
         .id('paymentAmount')
         .height(48)
-        .type(InputType.NUMBER_DECIMAL)
         .onChange((value: string) => this.amountYuan = value)
       Text('日期')
         .width('100%')
@@ -71,12 +73,6 @@ struct PaymentEdit {
           .width('100%')
           .fontColor('#D92D20')
       }
-      Button(this.saving ? '保存中…' : '保存收款')
-        .id('savePayment')
-        .width('100%')
-        .height(48)
-        .enabled(!this.saving)
-        .onClick(() => this.save())
     }
     .id('paymentEditPage')
     .width('100%')
@@ -89,6 +85,7 @@ struct PaymentEdit {
     if (this.saving) {
       return;
     }
+    this.getUIContext().getFocusController().clearFocus();
     this.saving = true;
     this.error = '';
     try {

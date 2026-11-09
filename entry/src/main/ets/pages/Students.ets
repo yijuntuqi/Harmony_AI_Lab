@@ -101,7 +101,7 @@ struct Students {
   private async loadStudents(): Promise<void> {
     try {
       await this.viewModel.loadStudents();
-      this.students = this.viewModel.students;
+      this.students = this.viewModel.students.reverse();
       this.error = '';
     } catch (error) {
       this.error = TutorViewModel.errorMessage(error as Object);

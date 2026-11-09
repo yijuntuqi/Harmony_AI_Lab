@@ -26,7 +26,6 @@ export class TutorViewModel {
     TutorViewModel.validateStudent(input);
     const repository = await this.getRepository();
     await repository.createStudent(input);
-    await this.loadStudents();
   }
 
   async switchBilling(studentId: number, input: StudentInput): Promise<void> {
@@ -42,7 +41,6 @@ export class TutorViewModel {
     }
     const repository = await this.getRepository();
     await repository.recordPayment(input);
-    await this.loadStudent(input.studentId);
   }
 
   async saveTopUp(input: TopUpInput): Promise<void> {
@@ -51,7 +49,6 @@ export class TutorViewModel {
     }
     const repository = await this.getRepository();
     await repository.topUpPackage(input);
-    await this.loadStudent(input.studentId);
   }
 
   static yuanToFen(yuan: string): number {

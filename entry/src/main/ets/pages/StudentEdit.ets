@@ -42,8 +42,11 @@ struct StudentEdit {
             .fontWeight(FontWeight.Bold)
             .layoutWeight(1)
             .textAlign(TextAlign.Center)
-          Blank()
-            .width(56)
+          Button(this.saving ? '保存中…' : '保存')
+            .id('saveStudent')
+            .type(ButtonType.Normal)
+            .enabled(!this.saving && !this.loading)
+            .onClick(() => this.save())
         }
         .width('100%')
 
@@ -100,7 +103,6 @@ struct StudentEdit {
         TextInput({ placeholder: '例如：100.00', text: this.unitPriceYuan })
           .id('studentUnitPrice')
           .height(48)
-          .type(InputType.NUMBER_DECIMAL)
           .onChange((value: string) => this.unitPriceYuan = value)
         if (this.error.length > 0) {
           Text(this.error)
@@ -108,12 +110,6 @@ struct StudentEdit {
             .width('100%')
             .fontColor('#D92D20')
         }
-        Button(this.saving ? '保存中…' : '保存')
-          .id('saveStudent')
-          .width('100%')
-          .height(48)
-          .enabled(!this.saving && !this.loading)
-          .onClick(() => this.save())
       }
       .width('100%')
       .padding(20)
@@ -147,6 +143,7 @@ struct StudentEdit {
     if (this.saving || this.loading) {
       return;
     }
+    this.getUIContext().getFocusController().clearFocus();
     this.saving = true;
     this.error = '';
     try {
