@@ -1,5 +1,10 @@
 {
   "src": [
-    "pages/Index"
+    "pages/Index",
+    "pages/Students",
+    "pages/StudentEdit",
+    "pages/StudentDetail",
+    "pages/PaymentEdit",
+    "pages/TopUpEdit"
   ]
 }
