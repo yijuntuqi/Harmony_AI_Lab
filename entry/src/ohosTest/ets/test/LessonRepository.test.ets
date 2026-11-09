@@ -105,6 +105,25 @@ export default function testsuite() {
       expect(lessons[0].content).assertEqual('编辑后的课程内容');
     });
 
+    it('lesson_edit_preserves_create_idempotency', 0, async () => {
+      const repository = await openRepository();
+      const studentId = await createStudent(repository, 'instrument-edit-idempotency', 'PREPAID');
+      await repository.topUpPackage({ studentId: studentId, date: '2026-11-08', lessons: 10, note: '' });
+      const original = lessonInput(studentId, `edit-retry-${Date.now()}`, null, 2);
+      const lessonId = await repository.createLesson(original);
+      const changed = lessonInput(studentId, `edit-retry-unused-${Date.now()}`, null, 3);
+
+      await repository.updateLesson(lessonId, changed);
+      const retryId = await repository.createLesson(original);
+
+      expect(retryId).assertEqual(lessonId);
+      expect((await repository.getStudentSummary(studentId)).remainingLessons).assertEqual(7);
+      const lessons = await repository.listLessons(studentId);
+      expect(lessons.length).assertEqual(1);
+      expect(lessons[0].requestId).assertEqual(original.requestId);
+      expect(lessons[0].deduction).assertEqual(3);
+    });
+
     it('lesson_delete_restores_balance', 0, async () => {
       const repository = await openRepository();
       const studentId = await createStudent(repository, 'instrument-lesson-delete', 'PREPAID');

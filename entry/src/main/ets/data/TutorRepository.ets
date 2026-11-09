@@ -161,7 +161,9 @@ export class TutorRepository {
       const predicates = new relationalStore.RdbPredicates('lessons');
       predicates.equalTo('id', lessonId);
       predicates.isNull('deleted_at');
-      const changed = await transaction.update(TutorRepository.lessonValues(input), predicates);
+      const values = TutorRepository.lessonValues(input);
+      values.request_id = original.requestId;
+      const changed = await transaction.update(values, predicates);
       if (changed !== 1) {
         throw new Error('Lesson not found');
       }
