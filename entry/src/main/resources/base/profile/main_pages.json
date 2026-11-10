@@ -5,6 +5,9 @@
     "pages/StudentEdit",
     "pages/StudentDetail",
     "pages/PaymentEdit",
-    "pages/TopUpEdit"
+    "pages/TopUpEdit",
+    "pages/LessonEdit",
+    "pages/Feedback",
+    "pages/Records"
   ]
 }

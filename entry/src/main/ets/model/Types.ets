@@ -41,3 +41,13 @@ export interface TopUpInput {
   lessons: number;
   note: string;
 }
+
+export interface PaymentRecord extends PaymentInput {
+  id: number;
+  createdAt: number;
+}
+
+export interface TopUpRecord extends TopUpInput {
+  id: number;
+  createdAt: number;
+}

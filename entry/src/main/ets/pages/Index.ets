@@ -3,8 +3,6 @@ import { router } from '@kit.ArkUI';
 @Entry
 @Component
 struct Index {
-  @State lessonPlaceholder: string = '';
-
   build() {
     Column({ space: 20 }) {
       Text('课后记')
@@ -14,25 +12,32 @@ struct Index {
         .fontSize(16)
         .fontColor('#667085')
       Button('记一节课')
-        .id('homeLessonPlaceholder')
+        .id('homeLesson')
         .width('100%')
         .height(52)
+        .type(ButtonType.Normal)
+        .borderRadius(12)
         .onClick(() => {
-          this.lessonPlaceholder = '记一节课功能将在后续提供';
+          router.pushUrl({ url: 'pages/Students', params: { selectForLesson: true } });
         })
       Button('学生与账目')
         .id('homeStudents')
         .width('100%')
         .height(52)
         .type(ButtonType.Normal)
+        .borderRadius(12)
         .onClick(() => {
           router.pushUrl({ url: 'pages/Students' });
         })
-      if (this.lessonPlaceholder.length > 0) {
-        Text(this.lessonPlaceholder)
-          .id('lessonPlaceholderText')
-          .fontColor('#667085')
-      }
+      Button('全部记录')
+        .id('homeRecords')
+        .width('100%')
+        .height(52)
+        .type(ButtonType.Normal)
+        .borderRadius(12)
+        .onClick(() => {
+          router.pushUrl({ url: 'pages/Records' });
+        })
     }
     .width('100%')
     .height('100%')

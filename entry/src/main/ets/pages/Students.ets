@@ -8,6 +8,12 @@ struct Students {
   @State students: StudentSummary[] = [];
   @State error: string = '';
   private viewModel: TutorViewModel = new TutorViewModel(getContext(this));
+  private selectForLesson: boolean = false;
+
+  aboutToAppear(): void {
+    const params = router.getParams() as Record<string, boolean> | null;
+    this.selectForLesson = params?.selectForLesson ?? false;
+  }
 
   onPageShow(): void {
     this.loadStudents();
@@ -81,7 +87,10 @@ struct Students {
               .borderRadius(12)
               .backgroundColor(Color.White)
               .onClick(() => {
-                router.pushUrl({ url: 'pages/StudentDetail', params: { studentId: student.id } });
+                router.pushUrl({
+                  url: this.selectForLesson ? 'pages/LessonEdit' : 'pages/StudentDetail',
+                  params: { studentId: student.id }
+                });
               })
             }
           }, (student: StudentSummary) => student.id.toString())

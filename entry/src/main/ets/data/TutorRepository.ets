@@ -5,10 +5,12 @@ import {
   BillingMode,
   LessonInput,
   PaymentInput,
+  PaymentRecord,
   PriceUnit,
   StudentInput,
   StudentSummary,
-  TopUpInput
+  TopUpInput,
+  TopUpRecord
 } from '../model/Types';
 import { Database } from './Database';
 
@@ -193,15 +195,54 @@ export class TutorRepository {
     }
   }
 
-  async listLessons(studentId: number): Promise<LessonRecord[]> {
-    const result = await this.getStore().querySql(
-      `${LESSON_SELECT} WHERE student_id = ? AND deleted_at IS NULL ORDER BY date DESC, id DESC`, [studentId]);
+  async listLessons(studentId: number = 0): Promise<LessonRecord[]> {
+    const result = studentId > 0 ? await this.getStore().querySql(
+      `${LESSON_SELECT} WHERE student_id = ? AND deleted_at IS NULL ORDER BY date DESC, id DESC`, [studentId]) :
+      await this.getStore().querySql(`${LESSON_SELECT} WHERE deleted_at IS NULL ORDER BY date DESC, id DESC`);
     const lessons: LessonRecord[] = [];
     while (result.goToNextRow()) {
       lessons.push(TutorRepository.readLesson(result));
     }
     result.close();
     return lessons;
+  }
+
+  async listPayments(studentId: number): Promise<PaymentRecord[]> {
+    const result = await this.getStore().querySql(
+      'SELECT id, student_id, date, amount_fen, note, created_at FROM payments WHERE student_id = ? ORDER BY date DESC, id DESC',
+      [studentId]);
+    const payments: PaymentRecord[] = [];
+    while (result.goToNextRow()) {
+      payments.push({
+        id: result.getLong(0),
+        studentId: result.getLong(1),
+        date: result.getString(2),
+        amountFen: result.getLong(3),
+        note: result.getString(4),
+        createdAt: result.getLong(5)
+      });
+    }
+    result.close();
+    return payments;
+  }
+
+  async listTopUps(studentId: number): Promise<TopUpRecord[]> {
+    const result = await this.getStore().querySql(
+      'SELECT id, student_id, date, lessons, note, created_at FROM package_topups WHERE student_id = ? ORDER BY date DESC, id DESC',
+      [studentId]);
+    const topUps: TopUpRecord[] = [];
+    while (result.goToNextRow()) {
+      topUps.push({
+        id: result.getLong(0),
+        studentId: result.getLong(1),
+        date: result.getString(2),
+        lessons: result.getLong(3),
+        note: result.getString(4),
+        createdAt: result.getLong(5)
+      });
+    }
+    result.close();
+    return topUps;
   }
 
   async saveFeedback(lessonId: number, content: string): Promise<void> {
