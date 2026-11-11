@@ -36,11 +36,13 @@
 - 首页样式调整后的本地测试：9/9 通过。
 - Task 7 清理后完整回归：本地 9/9 通过；设备 40/41 通过，`postpaid_feedback_edits` 单项超时，其他后续流程通过。用户已在 Mate 90 Pro 人工验证反馈流程成功，但该次结果不记为全绿。
 - Task 7 最终设备回归：41/41 通过，0 Failure、0 Error；`postpaid_feedback_edits` 上一次超时未复现。
-- Release `assembleApp`：BUILD SUCCESSFUL，生成 `build/outputs/default/AfterClass-default-signed.app` 和 `AfterClass-default-unsigned.app`。其中 signed 文件使用本地自动签名配置，只用于构建验证；尚未确认正式上架证书，不代表可提交审核的发布签名包。
+- Release `assembleApp`：BUILD SUCCESSFUL，生成 `build/outputs/default/AfterClass-default-signed.app` 和 `AfterClass-default-unsigned.app`。
+- 用户已在 AGC 创建课后记 APP ID、发布证书和发布 Profile，并在 DevEco 完成正式签名配置。签名材料与密码均保留在本地，未提交到 Git。
+- 使用华为 `hap-sign-tool.jar` 对 signed APP 执行 `verify-app`：摘要校验及签名验证成功；`verify-profile` 成功，Profile 类型为 `release`、分发类型为 `app_gallery`、包名为 `com.yijuntuqi.afterclass`。
 
 ## 发布前仍需确认
 
 - 最终 bundleName 已由用户确认为 `com.yijuntuqi.afterclass`；用户已确认拥有实名认证的华为开发者账号。
-- 隐私政策公开 URL 已由用户确认为当前公开 GitHub 仓库中的 `docs/release/privacy-policy.md` 页面，推送后需实际访问核对。
-- 正式发布签名和联系方式仍需确认。
+- 隐私政策公开 URL 已推送并由代理实际访问确认有效。
+- 商店联系方式等账号资料由用户在 AGC 按真实信息填写。
 - 由用户确认协议和最终提交审核；当前没有提交上架。
