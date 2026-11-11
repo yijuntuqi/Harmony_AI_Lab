@@ -104,7 +104,8 @@ export class TutorRepository {
     const transaction = await this.getStore().createTransaction();
     try {
       const summary = await TutorRepository.readSummaryInTransaction(transaction, studentId);
-      if (!canSwitchBilling(summary.outstandingFen, summary.remainingLessons)) {
+      if (summary.billingMode !== input.billingMode &&
+        !canSwitchBilling(summary.outstandingFen, summary.remainingLessons)) {
         throw new Error('Cannot switch billing with a non-zero balance');
       }
       const values: relationalStore.ValuesBucket = {

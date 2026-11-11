@@ -39,6 +39,8 @@
 - Release `assembleApp`：BUILD SUCCESSFUL，生成 `build/outputs/default/AfterClass-default-signed.app` 和 `AfterClass-default-unsigned.app`。
 - 用户已在 AGC 创建课后记 APP ID、发布证书和发布 Profile，并在 DevEco 完成正式签名配置。签名材料与密码均保留在本地，未提交到 Git。
 - 使用华为 `hap-sign-tool.jar` 对 signed APP 执行 `verify-app`：摘要校验及签名验证成功；`verify-profile` 成功，Profile 类型为 `release`、分发类型为 `app_gallery`、包名为 `com.yijuntuqi.afterclass`。
+- 整分支自审修复了“有余额时不能仅修改学生资料”的问题：新增 `profile_edit_allowed_without_billing_switch`，旧逻辑下 5 项中该项按预期报错，修复后相关测试 5/5、完整设备测试 42/42、本地测试 9/9 通过。
+- 修复后重新执行 release 构建和签名校验：BUILD SUCCESSFUL，证书为 Release，APP 摘要与 release Profile 均验证成功。
 
 ## 发布前仍需确认
 

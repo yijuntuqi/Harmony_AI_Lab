@@ -145,5 +145,36 @@ export default function testsuite() {
       expect(summary.unitPriceFen).assertEqual(14000);
       expect(summary.remainingLessons).assertEqual(2);
     });
+
+    it('profile_edit_allowed_without_billing_switch', 0, async () => {
+      const repository = await openRepository();
+      const studentId = await repository.createStudent({
+        nickname: 'instrument-profile-before',
+        subject: '化学',
+        billingMode: 'PREPAID',
+        priceUnit: 'PER_LESSON',
+        unitPriceFen: 14000
+      });
+      await repository.topUpPackage({
+        studentId: studentId,
+        date: '2026-11-10',
+        lessons: 2,
+        note: '未消费课时'
+      });
+
+      await repository.switchBilling(studentId, {
+        nickname: 'instrument-profile-after',
+        subject: '物理',
+        billingMode: 'PREPAID',
+        priceUnit: 'PER_LESSON',
+        unitPriceFen: 16000
+      });
+
+      const summary = await repository.getStudentSummary(studentId);
+      expect(summary.nickname).assertEqual('instrument-profile-after');
+      expect(summary.subject).assertEqual('物理');
+      expect(summary.unitPriceFen).assertEqual(16000);
+      expect(summary.remainingLessons).assertEqual(2);
+    });
   });
 }
